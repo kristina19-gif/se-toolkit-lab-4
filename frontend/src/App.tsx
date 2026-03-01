@@ -7,6 +7,7 @@ interface Item {
   id: number
   type: string
   title: string
+  description: string // Добавлено для Part C
   created_at: string
 }
 
@@ -25,6 +26,7 @@ function App() {
     setLoading(true)
     setError(null)
 
+    // Используем относительный путь для работы через прокси Vite
     fetch('/items', {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -93,6 +95,7 @@ function App() {
               <th>ID</th>
               <th>Type</th>
               <th>Title</th>
+              <th>Description</th> {/* Новая колонка для Part C */}
               <th>Created at</th>
             </tr>
           </thead>
@@ -102,6 +105,7 @@ function App() {
                 <td>{item.id}</td>
                 <td>{item.type}</td>
                 <td>{item.title}</td>
+                <td>{item.description}</td> {/* Данные колонки для Part C */}
                 <td>{item.created_at}</td>
               </tr>
             ))}
