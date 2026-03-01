@@ -24,3 +24,30 @@ def test_filter_returns_interaction_with_matching_ids() -> None:
     result = _filter_by_item_id(interactions, 1)
     assert len(result) == 1
     assert result[0].id == 1
+
+
+
+def test_filter_excludes_interaction_with_different_learner_id():
+    interactions = [_make_log(id=1, learner_id=2, item_id=1)]
+    result = _filter_by_item_id(interactions, 1)
+    assert len(result) == 1
+
+
+# 4. Тест на исключение (исправленный и без дублей)
+def test_filter_excludes_interaction_with_different_item_id() -> None:
+    interactions = [_make_log(id=1, learner_id=1, item_id=2)]
+    result = _filter_by_item_id(interactions, item_id=1)
+    assert len(result) == 0
+
+# 5. Тест на несуществующий ID (теперь без ошибки sample_interactions)
+def test_filter_returns_empty_list_for_non_existent_item():
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 2)]
+    result = _filter_by_item_id(interactions, item_id=999)
+    assert result == []
+
+# 6. Тест на несколько совпадений
+def test_filter_with_multiple_matches():
+    interactions = [_make_log(1, 1, 1), _make_log(2, 2, 1), _make_log(3, 3, 2)]
+    result = _filter_by_item_id(interactions, item_id=1)
+    assert len(result) == 2
+    assert all(i.item_id == 1 for i in result)

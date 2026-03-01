@@ -28,7 +28,7 @@ app.include_router(
     dependencies=[Depends(verify_api_key)],
 )
 
-if settings.enable_interactions:
+if True:
     app.include_router(
         interactions.router,
         prefix="/interactions",
@@ -36,10 +36,9 @@ if settings.enable_interactions:
         dependencies=[Depends(verify_api_key)],
     )
 
-if settings.enable_learners:
-    app.include_router(
-        learners.router,
-        prefix="/learners",
-        tags=["learners"],
-        dependencies=[Depends(verify_api_key)],
-    )
+app.include_router(
+    interactions.router,
+    prefix="/interactions",
+    tags=["interactions"],
+    dependencies=[Depends(verify_api_key)],
+)
